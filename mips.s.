@@ -152,5 +152,16 @@ convert_and_accumulate:
     add $t4, $t4, $t6   # Accumulate sum
     j process_next_char_sub
 
+skip_convert_and_accumulate:
+    j process_next_char_sub
+
+process_next_char_sub:
+    addi $a0, $a0, 1
+    addi $t5, $t5, 1
+    j substring_loop
+
+end_substring:
+    move $v0, $t4
+    jr $ra
 
 
