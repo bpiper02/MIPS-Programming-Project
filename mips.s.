@@ -1,8 +1,7 @@
 .data
-input_string:   .space 1000   # Buffer for input string
-buffer:         .space 100     # Buffer for each substring
+input_string:   .space 1001   # Buffer for input string
 prompt:         .asciiz "Enter a string: "
-delimiter:      .asciiz "/\n"
+delimiter:      .asciiz "/"
 
 .text
 main:
