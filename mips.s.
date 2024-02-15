@@ -135,3 +135,13 @@ lowercase_to_digit:
     sub $t6, $t6, $t8   # Convert 'A' to 0
     j convert_and_accumulate
 
+not_uppercase:
+    li $t7, 48          # Decimal value for '0'
+    blt $t6, $t7, not_alphanumeric_sub
+    li $t7, 57          # Decimal value for '9'
+    bgt $t6, $t7, not_alphanumeric_sub
+    li $t8, 48          # Decimal value for '0'
+    sub $t6, $t6, $t8   # Convert '0' to 0
+    j convert_and_accumulate
+
+
