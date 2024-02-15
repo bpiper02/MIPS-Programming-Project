@@ -16,3 +16,13 @@ main:
     la $a0, input_string
     li $a1, 1000
     syscall
+
+ # Pass input string address to process_whole_string
+    la $a0, input_string
+    jal process_whole_string
+
+    # Exit program
+    li $v0, 10
+    syscall
+
+
