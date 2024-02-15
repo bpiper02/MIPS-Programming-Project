@@ -112,3 +112,11 @@ substring_loop:
 
     # Check for end of substring
     beqz $t6, end_substring
+
+ # Convert character to base-N digit and accumulate sum
+    li $t7, 10          # Decimal value for 'A' and 'a'
+    bge $t6, $t7, not_lowercase
+    li $t7, 65          # Decimal value for 'A'
+    bge $t6, $t7, lowercase_to_digit
+    li $t7, 97          # Decimal value for 'a'
+    j convert_and_accumulate
