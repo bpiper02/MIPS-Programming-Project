@@ -51,3 +51,13 @@ process_loop:
     addi $t1, $t1, 1
     j process_next_char
 
+check_uppercase:
+    li $t3, 48          # Decimal value for '0'
+    li $t4, 57          # Decimal value for '9'
+    blt $t2, $t3, not_alphanumeric
+    bgt $t2, $t4, not_alphanumeric
+
+    sb $t2, 0($t1)
+    addi $t0, $t0, 1
+    addi $t1, $t1, 1
+    j process_next_char
