@@ -29,24 +29,24 @@ process_whole_string:
     move $s0, 0            # actually store input string address into $a0 as per requirements
     li $t0, 0
 
-process_loop:
-    # Load byte from input_string
-    lb $t1, 0($s0)
+    process_loop:
+        # Load byte from input_string
+        lb $t1, 0($s0)
+    
+        # Check for the end of string
+        beqz $t1, end_process
+    
+        # Check if char is a digit or not
+        li $t2, 48
+        li $t3, 57
+        blt $t1, $t2, check_character
+        bgt $t1, $t3, check_character
 
-    # Check for the end of string
-    beqz $t1, end_process
 
-    # Check if char is a digit or not
-    li $t2, 48
-    li $t3, 57
-    blt $t1, $t2, check_character
-    bgt $t1, $t3, check_character
-
-
-    #Converting the digit to an integer and adding to the current sum
-    sub $t1, $t1, 48
-    add $t0, $t0, $t1
-    j next_char
+        #Converting the digit to an integer and adding to the current sum
+        sub $t1, $t1, 48
+        add $t0, $t0, $t1
+        j next_char
 
 check_char:
     # Check if the character is an alphabet
