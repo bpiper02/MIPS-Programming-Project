@@ -85,3 +85,10 @@ process_substring:
     # Reset buffer pointer
     la $t1, buffer
 
+    # Print delimiter
+    li $v0, 4
+    la $a0, delimiter
+    syscall
+
+    # Reset index
+    li $t0, 0
