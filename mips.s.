@@ -106,3 +106,9 @@ process_substring_helper:
     # Initialize index
     li $t5, 0
 
+substring_loop:
+    # Load byte from substring
+    lb $t6, 0($a0)
+
+    # Check for end of substring
+    beqz $t6, end_substring
