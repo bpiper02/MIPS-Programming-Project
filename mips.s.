@@ -46,7 +46,11 @@ process_loop:
     #Converting the digit to an integer and adding to the current sum
     sub $t1, $t1, 48
     add $t0, $t0, $t1
-    j process_next_char
+    j next_char
+
+  to_uppercase:
+        addi $t2, $t2, -32    # Subtract 32 to convert to uppercase
+        j check_char
 
 
     
