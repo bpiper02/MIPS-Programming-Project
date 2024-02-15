@@ -99,3 +99,10 @@ process_substring:
 end_process:
     jr $ra
 
+process_substring_helper:
+    # Initialize sum
+    li $t4, 0
+
+    # Initialize index
+    li $t5, 0
+
