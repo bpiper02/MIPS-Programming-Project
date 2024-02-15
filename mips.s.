@@ -10,3 +10,9 @@ main:
     li $v0, 4
     la $a0, prompt
     syscall
+
+# Read input string
+    li $v0, 8
+    la $a0, input_string
+    li $a1, 1000
+    syscall
