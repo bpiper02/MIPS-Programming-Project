@@ -1,8 +1,9 @@
 .data
-input_string:   .space 1001   # space allocation for an input string
-prompt:         .asciiz "Enter a string: "
-delimiter:      .asciiz "/"
 newline: .asciiz "\n"
+input_string:   .space 1001   # space allocation for an input string
+delimiter:      .asciiz "/"
+prompt:         .asciiz "Enter a string: "
+
 
 .text
 main:
@@ -26,51 +27,48 @@ main:
 
 process_whole_string:
     # Initialize index and buffer pointer
-    move $s0, 0            # actually store input string address into $a0 as per requirements
+    move $s0, $a0            # actually store input string address into $a0 as per requirements
     li $t0, 0
 
-    process_loop:
-        # Load byte from input_string
-        lb $t1, 0($s0)
-    
-        # Check for the end of string
-        beqz $t1, end_process
-    
-        # Check if char is a digit or not
-        li $t2, 48
-        li $t3, 57
-        blt $t1, $t2, check_character
-        bgt $t1, $t3, check_character
+process_loop:
+    # Load byte from input_string
+    lb $t1, 0($s0)
+
+    # Check for the end of string
+    beqz $t1, end_process
+
+    # Check if char is a digit or not
+    li $t2, 48
+    li $t3, 57
+    blt $t1, $t2, check_character
+    bgt $t1, $t3, check_character
 
 
-        #Converting the digit to an integer and adding to the current sum
-        sub $t1, $t1, 48
-        add $t0, $t0, $t1
-        j next_char
-
-check_char:
-    # Check if the character is an alphabet
-    li $t3, 65      # ASCII value of 'A'
-    li $t4, 122     # ASCII value of 'z'
-    blt $t2, $t3, handle_special_char
-    bgt $t2, $t4, handle_special_char
-
-    # Convert lowercase to uppercase
-    li $t5, 97
-    bge $t2, $t5, to_uppercase
-
-    # Calculate the value of the alphabet and add to sum
-    sub $t2, $t2, $t3
-    addi $t2, $t2, 10
-    add $t1, $t1, $t2
+    #Converting the digit to an integer and adding to the current sum
+    sub $t1, $t1, 48
+    add $t0, $t0, $t1
     j next_character
 
+check_character:
+    # Check if the character is an alphabetic one
+    li $t2, 65      # ASCII value of 'A'
+    li $t3, 122     # ASCII value of 'z'
+    blt $t1, $t2, handle_special_char
+    bgt $t1, $t3, handle_special_char
+
+    # Convert lowercase to uppercase
+    li $t4, 97
+    bge $t1, $t4, to_uppercase
+
+    # Calculate the value of the alphabet and add it to sum
+    sub $t1, $t1, $t2
+    addi $t1, $t1, 10
+    add $t0, $t0, $t1
+    j next_char
 
   to_uppercase:
         addi $t2, $t2, -32    # Subtract 32 to convert to uppercase
         j check_char
-
-
 
  handle_special_char:
         # Handle special characters (e.g., '/')
