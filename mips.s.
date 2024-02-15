@@ -1,5 +1,5 @@
 .data
-input_string:   .space 1001   # Buffer for input string
+input_string:   .space 1001   # space allocation for input string
 prompt:         .asciiz "Enter a string: "
 delimiter:      .asciiz "/"
 
@@ -16,8 +16,7 @@ main:
     li $a1, 1000
     syscall
 
- # Pass input string address to process_whole_string
-    la $a0, input_string
+ 
     jal process_whole_string
 
     # Exit program
