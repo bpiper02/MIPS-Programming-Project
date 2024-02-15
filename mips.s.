@@ -76,3 +76,12 @@ process_substring:
     # Pass substring address to process_substring_helper
     la $a0, buffer
     jal process_substring_helper
+
+ # Print the result
+    move $a0, $v0
+    li $v0, 1
+    syscall
+
+    # Reset buffer pointer
+    la $t1, buffer
+
