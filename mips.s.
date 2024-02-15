@@ -29,29 +29,31 @@ process_whole_string:
     move $s0, 0            # actually store input string address into $a0 as per requirements
     li $t0, 0
 
-    process_loop:
-        # Load byte from input_string
-        lb $t1, 0($s0)
+process_loop:
+    # Load byte from input_string
+    lb $t1, 0($s0)
+
+    # Check for the end of string
+    beqz $t1, end_process
+
+    # Check if char is a digit or not
+    li $t2, 48
+    li $t3, 57
+    blt $t1, $t2, check_character
+    bgt $t1, $t3, check_character
+
+
+    #Converting the digit to an integer and adding to the current sum
+    sub $t1, $t1, 48
+    add $t0, $t0, $t1
+    j process_next_char
+
+
     
-        # Check for the end of string
-        beqz $t1, end_process
     
-        # Check if char is a digit or not
-        li $t2, 48
-        li $t3, 57
-        blt $t1, $t2, check_character
-        bgt $t1, $t3, check_character
-        
     
-        # Copy character to buffer if it's alphanumeric
-        li $t3, '0'
-        blt $t2, $t3, not_alphanumeric
-        li $t3, '9'
-        bgt $t2, $t3, check_uppercase
-        sb $t2, 0($t1)
-        addi $t0, $t0, 1
-        addi $t1, $t1, 1
-        j process_next_char
+    
+      
 
 check_uppercase:
     li $t3, 48          # Decimal value for '0'
@@ -68,7 +70,7 @@ not_alphanumeric:
     j process_next_char
 
 process_next_char:
-    addi $a0, $a0, 1
+    addi $a0, $s0, 1
     j process_loop
 
 process_substring:
