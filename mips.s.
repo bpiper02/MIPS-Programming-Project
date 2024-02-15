@@ -48,6 +48,28 @@ process_loop:
     add $t0, $t0, $t1
     j next_char
 
+check_char:
+    # Check if the character is an alphabet
+    li $t3, 65      # ASCII value of 'A'
+    li $t4, 122     # ASCII value of 'z'
+    blt $t2, $t3, handle_special_char
+    bgt $t2, $t4, handle_special_char
+
+    # Convert lowercase to uppercase
+    li $t5, 97
+    bge $t2, $t5, to_uppercase
+
+    # Calculate the value of the alphabet and add to sum
+    sub $t2, $t2, $t3
+    addi $t2, $t2, 10
+    add $t1, $t1, $t2
+    j next_character
+
+
+
+
+
+
   to_uppercase:
         addi $t2, $t2, -32    # Subtract 32 to convert to uppercase
         j check_char
