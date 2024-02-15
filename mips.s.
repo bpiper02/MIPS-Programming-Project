@@ -53,123 +53,29 @@ process_loop:
         j check_char
 
 
-    
-    
-    
-    
-      
+invalid_char:
+        # Invalid character handling
+        j process_next_character
 
-check_uppercase:
-    li $t3, 48          # Decimal value for '0'
-    li $t4, 57          # Decimal value for '9'
-    blt $t2, $t3, not_alphanumeric
-    bgt $t2, $t4, not_alphanumeric
 
-    sb $t2, 0($t1)
-    addi $t0, $t0, 1
-    addi $t1, $t1, 1
-    j process_next_char
 
-not_alphanumeric:
-    j process_next_char
 
 process_next_char:
-    addi $a0, $s0, 1
-    j process_loop
-
-process_substring:
-    # Null-terminate the buffer
-    sb $zero, 0($t1)
-
-    # Pass substring address to process_substring_helper
-    la $a0, buffer
-    jal process_substring_helper
-
- # Print the result
-    move $a0, $v0
-    li $v0, 1
-    syscall
-
-    # Reset buffer pointer
-    la $t1, buffer
-
-    # Print delimiter
-    li $v0, 4
-    la $a0, delimiter
-    syscall
-
-    # Reset index
-    li $t0, 0
-  # Move to the next character in input_string
-    addi $a0, $a0, 1
+    addi $s0, $s0, 1   # Move to the next character in the input string
     j process_loop
 
 end_process:
-    jr $ra
-
-process_substring_helper:
-    # Initialize sum
-    li $t4, 0
-
-    # Initialize index
-    li $t5, 0
-
-substring_loop:
-    # Load byte from substring
-    lb $t6, 0($a0)
-
-    # Check for end of substring
-    beqz $t6, end_substring
-
- # Convert character to base-N digit and accumulate sum
-    li $t7, 10          # Decimal value for 'A' and 'a'
-    bge $t6, $t7, not_lowercase
-    li $t7, 65          # Decimal value for 'A'
-    bge $t6, $t7, lowercase_to_digit
-    li $t7, 97          # Decimal value for 'a'
-    j convert_and_accumulate
-
-not_lowercase:
-    li $t7, 65          # Decimal value for 'A'
-    blt $t6, $t7, not_uppercase
-    li $t7, 90          # Decimal value for 'Z'
-    bgt $t6, $t7, not_uppercase
-    li $t8, 65          # Decimal value for 'A'
-    sub $t6, $t6, $t8   # Convert 'A' to 0
-    j convert_and_accumulate
-
-lowercase_to_digit:
-    li $t8, 10          # Decimal value for 'A'
-    sub $t6, $t6, $t8   # Convert 'A' to 0
-    j convert_and_accumulate
-
-not_uppercase:
-    li $t7, 48          # Decimal value for '0'
-    blt $t6, $t7, not_alphanumeric_sub
-    li $t7, 57          # Decimal value for '9'
-    bgt $t6, $t7, not_alphanumeric_sub
-    li $t8, 48          # Decimal value for '0'
-    sub $t6, $t6, $t8   # Convert '0' to 0
-    j convert_and_accumulate
-
-not_alphanumeric_sub:
-    j skip_convert_and_accumulate
-
-convert_and_accumulate:
-    mul $t6, $t6, 30   # Multiply by base (assuming base is 30)
-    add $t4, $t4, $t6   # Accumulate sum
-    j process_next_char_sub
-
-skip_convert_and_accumulate:
-    j process_next_char_sub
-
-process_next_char_sub:
-    addi $a0, $a0, 1
-    addi $t5, $t5, 1
-    j substring_loop
-
-end_substring:
-    move $v0, $t4
+    # Print the sum
+    li $v0, 1
+    move $a0, $t1
+    syscall
+    
+    # Print a newline
+    li $v0, 4
+    la $a0, newline
+    syscall
+    
+    # Exit the function
     jr $ra
 
 
