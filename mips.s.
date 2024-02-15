@@ -144,4 +144,13 @@ not_uppercase:
     sub $t6, $t6, $t8   # Convert '0' to 0
     j convert_and_accumulate
 
+not_alphanumeric_sub:
+    j skip_convert_and_accumulate
+
+convert_and_accumulate:
+    mul $t6, $t6, 30   # Multiply by base (assuming base is 30)
+    add $t4, $t4, $t6   # Accumulate sum
+    j process_next_char_sub
+
+
 
