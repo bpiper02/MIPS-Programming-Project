@@ -33,7 +33,7 @@ process_loop:
     lb $t1, 0($s0)
 
     # Check for end of string
-    beqz $t2, end_process
+    beqz $t1, end_process
 
     # Check for delimiter '/'
     li $t3, '/'
