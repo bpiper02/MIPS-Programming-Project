@@ -69,3 +69,10 @@ process_next_char:
     addi $a0, $a0, 1
     j process_loop
 
+process_substring:
+    # Null-terminate the buffer
+    sb $zero, 0($t1)
+
+    # Pass substring address to process_substring_helper
+    la $a0, buffer
+    jal process_substring_helper
