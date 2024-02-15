@@ -25,4 +25,8 @@ main:
     li $v0, 10
     syscall
 
+process_whole_string:
+    # Initialize index and buffer pointer
+    li $t0, 0            # Index for input_string
+    la $t1, buffer       # Pointer for buffer
 
