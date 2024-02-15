@@ -2,6 +2,7 @@
 input_string:   .space 1001   # space allocation for an input string
 prompt:         .asciiz "Enter a string: "
 delimiter:      .asciiz "/"
+newline: .asciiz "\n"
 
 .text
 main:
@@ -28,26 +29,29 @@ process_whole_string:
     move $s0, 0            # actually store input string address into $a0 as per requirements
     li $t0, 0
 
-process_loop:
-    # Load byte from input_string
-    lb $t1, 0($s0)
-
-    # Check for end of string
-    beqz $t1, end_process
-
-    # Check for delimiter '/'
-    li $t3, '/'
-    beq $t2, $t3, process_substring
-
-    # Copy character to buffer if it's alphanumeric
-    li $t3, '0'
-    blt $t2, $t3, not_alphanumeric
-    li $t3, '9'
-    bgt $t2, $t3, check_uppercase
-    sb $t2, 0($t1)
-    addi $t0, $t0, 1
-    addi $t1, $t1, 1
-    j process_next_char
+    process_loop:
+        # Load byte from input_string
+        lb $t1, 0($s0)
+    
+        # Check for the end of string
+        beqz $t1, end_process
+    
+        # Check if char is a digit or not
+        li $t2, 48
+        li $t3, 57
+        blt $t1, $t2, check_character
+        bgt $t1, $t3, check_character
+        
+    
+        # Copy character to buffer if it's alphanumeric
+        li $t3, '0'
+        blt $t2, $t3, not_alphanumeric
+        li $t3, '9'
+        bgt $t2, $t3, check_uppercase
+        sb $t2, 0($t1)
+        addi $t0, $t0, 1
+        addi $t1, $t1, 1
+        j process_next_char
 
 check_uppercase:
     li $t3, 48          # Decimal value for '0'
