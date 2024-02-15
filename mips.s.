@@ -121,6 +121,15 @@ substring_loop:
     li $t7, 97          # Decimal value for 'a'
     j convert_and_accumulate
 
+not_lowercase:
+    li $t7, 65          # Decimal value for 'A'
+    blt $t6, $t7, not_uppercase
+    li $t7, 90          # Decimal value for 'Z'
+    bgt $t6, $t7, not_uppercase
+    li $t8, 65          # Decimal value for 'A'
+    sub $t6, $t6, $t8   # Convert 'A' to 0
+    j convert_and_accumulate
+
 lowercase_to_digit:
     li $t8, 10          # Decimal value for 'A'
     sub $t6, $t6, $t8   # Convert 'A' to 0
