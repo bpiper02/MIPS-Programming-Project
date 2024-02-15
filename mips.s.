@@ -30,7 +30,7 @@ process_whole_string:
 
 process_loop:
     # Load byte from input_string
-    lb $t2, 0($a0)
+    lb $t1, 0($s0)
 
     # Check for end of string
     beqz $t2, end_process
