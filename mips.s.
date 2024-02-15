@@ -3,3 +3,10 @@ input_string:   .space 1000   # Buffer for input string
 buffer:         .space 100     # Buffer for each substring
 prompt:         .asciiz "Enter a string: "
 delimiter:      .asciiz "/\n"
+
+.text
+main:
+    # Prompt user for input
+    li $v0, 4
+    la $a0, prompt
+    syscall
