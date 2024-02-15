@@ -41,3 +41,13 @@ process_loop:
     li $t3, '/'
     beq $t2, $t3, process_substring
 
+    # Copy character to buffer if it's alphanumeric
+    li $t3, '0'
+    blt $t2, $t3, not_alphanumeric
+    li $t3, '9'
+    bgt $t2, $t3, check_uppercase
+    sb $t2, 0($t1)
+    addi $t0, $t0, 1
+    addi $t1, $t1, 1
+    j process_next_char
+
