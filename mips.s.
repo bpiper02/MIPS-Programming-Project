@@ -66,21 +66,24 @@ check_char:
     j next_character
 
 
-
-
-
-
   to_uppercase:
         addi $t2, $t2, -32    # Subtract 32 to convert to uppercase
         j check_char
 
 
+
+ handle_special_char:
+        # Handle special characters (e.g., '/')
+        li $t5, '/'
+        beq $t2, $t5, process_next_character  # If it's '/', process the next character
+
+ next_char:
+        addi $s0, $s0, 1   # Move to the next character in the input string
+        j process_loop
+
 invalid_char:
         # Invalid character handling
         j process_next_character
-
-
-
 
 process_next_char:
     addi $s0, $s0, 1   # Move to the next character in the input string
