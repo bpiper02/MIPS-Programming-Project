@@ -26,7 +26,7 @@ main:
 process_whole_string:
     # Initialize index and buffer pointer
     move $s0, 0            # actually store input string address into $a0 as per requirements
-    la $t1, buffer       # Pointer for buffer
+    li $t0, 0
 
 process_loop:
     # Load byte from input_string
