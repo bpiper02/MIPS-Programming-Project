@@ -1,1 +1,5 @@
-
+.data
+input_string:   .space 1000   # Buffer for input string
+buffer:         .space 100     # Buffer for each substring
+prompt:         .asciiz "Enter a string: "
+delimiter:      .asciiz "/\n"
