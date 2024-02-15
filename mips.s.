@@ -30,3 +30,14 @@ process_whole_string:
     li $t0, 0            # Index for input_string
     la $t1, buffer       # Pointer for buffer
 
+process_loop:
+    # Load byte from input_string
+    lb $t2, 0($a0)
+
+    # Check for end of string
+    beqz $t2, end_process
+
+    # Check for delimiter '/'
+    li $t3, '/'
+    beq $t2, $t3, process_substring
+
