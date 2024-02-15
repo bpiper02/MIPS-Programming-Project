@@ -95,7 +95,7 @@ end_process:
     move $a0, $t1
     syscall
     
-    # Print a newline
+    # Print a new line
     li $v0, 4
     la $a0, newline
     syscall
