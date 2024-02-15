@@ -1,5 +1,5 @@
 .data
-input_string:   .space 1001   # space allocation for input string
+input_string:   .space 1001   # space allocation for an input string
 prompt:         .asciiz "Enter a string: "
 delimiter:      .asciiz "/"
 
@@ -25,7 +25,7 @@ main:
 
 process_whole_string:
     # Initialize index and buffer pointer
-    li $t0, 0            # Index for input_string
+    move $s0, 0            # actually store input string address into $a0 as per requirements
     la $t1, buffer       # Pointer for buffer
 
 process_loop:
