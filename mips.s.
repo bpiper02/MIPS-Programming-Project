@@ -18,7 +18,7 @@ main:
     li $a1, 1000
     syscall
 
- 
+    la $a0, input_string
     jal process_whole_string
 
     # Exit program
@@ -28,62 +28,63 @@ main:
 process_whole_string:
     # Initialize index and buffer pointer
     move $s0, $a0            # actually store input string address into $a0 as per requirements
-    li $t0, 0
+    li $t1, 0
 
-process_loop:
-    # Load byte from input_string
-    lb $t1, 0($s0)
+    process_loop:
+        # Load byte from input_string
+        lb $t2, 0($s0)
+    
+        # Check for the end of string
+        beqz $t2, end_process
+    
+        # Check if char is a digit or not
+        li $t3, 48
+        li $t4, 57
+        blt $t2, $t3, check_character
+        bgt $t2, $t4, check_character
 
-    # Check for the end of string
-    beqz $t1, end_process
 
-    # Check if char is a digit or not
-    li $t2, 48
-    li $t3, 57
-    blt $t1, $t2, check_character
-    bgt $t1, $t3, check_character
-
-
-    #Converting the digit to an integer and adding to the current sum
-    sub $t1, $t1, 48
-    add $t0, $t0, $t1
-    j next_character
+        #Converting the digit to an integer and adding to the current sum
+        sub $t2, $t2, $t3
+        add $t1, $t1, $t2
+        j next_char
 
 check_character:
     # Check if the character is an alphabetic one
-    li $t2, 65      # ASCII value of 'A'
-    li $t3, 122     # ASCII value of 'z'
-    blt $t1, $t2, handle_special_char
-    bgt $t1, $t3, handle_special_char
+    li $t3, 65      # ASCII value of 'A'
+    li $t4, 122     # ASCII value of 'z'
+    blt $t2, $t3, handle_special_char
+    bgt $t2, $t4, handle_special_char
 
     # Convert lowercase to uppercase
-    li $t4, 97
-    bge $t1, $t4, to_uppercase
+    li $t5, 97
+    bge $t2, $t5, to_uppercase
 
     # Calculate the value of the alphabet and add it to sum
-    sub $t1, $t1, $t2
-    addi $t1, $t1, 10
-    add $t0, $t0, $t1
+    sub $t2, $t2, $t3
+    addi $t2, $t2, 10
+    add $t1, $t1, $t2
     j next_char
 
   to_uppercase:
         addi $t2, $t2, -32    # Subtract 32 to convert to uppercase
-        j check_char
+        j check_character
 
  handle_special_char:
         # Handle special characters (e.g., '/')
         li $t5, '/'
-        beq $t2, $t5, process_next_character  # If it's '/', process the next character
+        beq $t2, $t5, next_char  # If it's '/', process the next character
+        j invalid_char
 
  next_char:
-        addi $s0, $s0, 1   # Move to the next character in the input string
-        j process_loop
+        j process_next_character
 
 invalid_char:
         # Invalid character handling
         j process_next_character
 
-process_next_char:
+
+process_next_character:
     addi $s0, $s0, 1   # Move to the next character in the input string
     j process_loop
 
