@@ -30,7 +30,7 @@ process_whole_string:
     move $s0, $a0            # actually store input string address into $a0 as per requirements
     li $t1, 0
 
-    process_loop:
+    process_substring:
         # Load byte from input_string
         lb $t2, 0($s0)
     
@@ -86,7 +86,7 @@ invalid_char:
 
 process_next_character:
     addi $s0, $s0, 1   # Move to the next character in the input string
-    j process_loop
+    j process_substring
 
 end_process:
     # Print the sum
